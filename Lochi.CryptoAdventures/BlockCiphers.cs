@@ -17,21 +17,21 @@
         Console.WriteLine("Encrypted: {0}", Convert.ToBase64String(encrypted));
         Console.WriteLine("Decrypted: {0}", roundtrip);
     }
-    private static byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
+    private static byte[] EncryptStringToBytes_Aes(string plainText, byte[] key, byte[] iv)
     {
         // Check arguments.
         if (plainText is not {Length: > 0})
             throw new ArgumentNullException(nameof(plainText));
-        if (Key is not {Length: > 0})
-            throw new ArgumentNullException(nameof(Key));
-        if (IV is not {Length: > 0})
-            throw new ArgumentNullException(nameof(IV));
+        if (key is not {Length: > 0})
+            throw new ArgumentNullException(nameof(key));
+        if (iv is not {Length: > 0})
+            throw new ArgumentNullException(nameof(iv));
 
         // Create an Aes object
         // with the specified key and IV.
         using Aes aesAlg = Aes.Create();
-        aesAlg.Key = Key;
-        aesAlg.IV = IV;
+        aesAlg.Key = key;
+        aesAlg.IV = iv;
 
         // Create an encryptor to perform the stream transform.
         ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
@@ -51,15 +51,15 @@
         return encrypted;
     }
 
-    private static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV)
+    private static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] key, byte[] iv)
     {
         // Check arguments.
         if (cipherText is not {Length: > 0})
             throw new ArgumentNullException(nameof(cipherText));
-        if (Key is not {Length: > 0})
-            throw new ArgumentNullException(nameof(Key));
-        if (IV is not {Length: > 0})
-            throw new ArgumentNullException(nameof(IV));
+        if (key is not {Length: > 0})
+            throw new ArgumentNullException(nameof(key));
+        if (iv is not {Length: > 0})
+            throw new ArgumentNullException(nameof(iv));
 
         // Declare the string used to hold
         // the decrypted text.
@@ -67,8 +67,8 @@
         // Create an Aes object
         // with the specified key and IV.
         using Aes aesAlg = Aes.Create();
-        aesAlg.Key = Key;
-        aesAlg.IV = IV;
+        aesAlg.Key = key;
+        aesAlg.IV = iv;
 
         // Create a decryptor to perform the stream transform.
         ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
